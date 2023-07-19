@@ -49,6 +49,7 @@ urlpatterns = [
     path('meeting/', include('meeting.urls')),
     path('notification/', include('notification.urls')),
     path('pc/', include('pc.urls')),
+    path('vn_pay/', include('vnpay.urls')),
 
 
 

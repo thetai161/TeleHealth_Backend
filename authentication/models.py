@@ -49,6 +49,8 @@ class User(AbstractBaseUser, PermissionsMixin):
     role = models.CharField(max_length=30, choices=ROLE_CHOICE, null=True)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
+    free_usage_count = models.CharField(max_length=15, null=True)
+    unlimited_usage = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

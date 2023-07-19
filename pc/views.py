@@ -41,7 +41,12 @@ class PcViewSet(GetSerializerClassMixin, viewsets.ModelViewSet):
     def pc_load(self, request):
         id = request.user.id
         patientId = request.data['patientId']
+        userId = request.data['userId']
         if request.method == "POST":
+            user = User.objects.get(id=userId)
+            free_usage_count_new = user.free_usage_count + 1
+            user.free_usage_count = free_usage_count_new
+            user.save()
             uploaded_files = request.FILES.getlist("uploadfiles")
             urlk = str(datetime.today().year) + str(datetime.today().month) + str(datetime.today().day) + \
                 str(datetime.now().hour)+str(datetime.now().minute) + \

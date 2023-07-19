@@ -38,6 +38,7 @@ class LoginAPIView(generics.GenericAPIView):
         try:
             serializer = self.serializer_class(data=request.data)
             if serializer.is_valid():
+                request.session['user_id'] = serializer.data['id']
                 return success(data=serializer.data)
             return error("Sign in failed", data='')
         except:
@@ -101,3 +102,33 @@ class DoctorRegister(generics.GenericAPIView):
                 return success(data=doctorSerializer.data)
         except:
             return error("Failed", data='')
+
+
+class PaymentAPIView(generics.GenericAPIView):
+
+    def post(self, request):
+        userId = request.data['userId']
+        user_id = request.session.get('user_id')
+        print("========user_id", user_id)
+        try:
+            user = User.objects.get(id=userId)
+            data = {
+                'free_usage_count': user.free_usage_count,
+                'unlimited_usage': user.unlimited_usage
+            }
+            return success(data=data)
+        except Exception as ex:
+            return error("Error", data=ex)
+
+
+class ActiveUnlimitedUsage(generics.GenericAPIView):
+    def active(self, request):
+        from vnpay.settings import VNPAY_TMN_CODE
+        try:
+            vnp_TmnCode = request.args.get('vnp_TmnCode')
+            if vnp_TmnCode == VNPAY_TMN_CODE:
+                pass
+            else:
+                pass
+        except Exception as ex:
+            return error(data=ex)
