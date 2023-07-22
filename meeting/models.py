@@ -15,7 +15,7 @@ class Meeting(models.Model):
     calendar_id = models.CharField(max_length=200)
     calendar_url = models.CharField(max_length=200)
     meeting_url = models.CharField(max_length=200)
-    conclusion = models.CharField(max_length=200, null=True)
+    conclusion = models.TextField(null=True)
     url_file = models.CharField(max_length=200, default='')
     is_valid = models.BooleanField(default=True)
 
@@ -41,6 +41,7 @@ class MeetingGuest(models.Model):
         User, on_delete=models.CASCADE, related_name='meeting_guest')
 
     created_at = models.DateTimeField(auto_now_add=True)
+    conclusion_guest = models.TextField(null=True)
 
     class Meta:
         db_table = "meeting_guest"

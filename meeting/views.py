@@ -116,7 +116,8 @@ class MeetingViewSet(GetSerializerClassMixin, viewsets.ModelViewSet):
                     )
             meetingSerializer = self.get_serializer(meeting)
             return success(data=meetingSerializer.data)
-        except:
+        except Exception as err:
+            print("=======", err)
             return error(data="Not valid data")
 
     def update(self, request, *args, **kwargs):
@@ -191,6 +192,15 @@ class MeetingViewSet(GetSerializerClassMixin, viewsets.ModelViewSet):
         meetingSerializer = MeetingSerializer(instance=meeting)
         return success(data=meetingSerializer.data)
 
+    def addMeetingConclusionByGuest(self, request, *args, **kwargs):
+        meetingId = self.request.GET.get('pk')
+        guestId = request.user.id
+        meeting = MeetingGuest.objects.filter(meeting=meetingId, meeting_guest=guestId)
+        meeting.update(
+            conclusion_guest= request.data['conclusion']
+        )
+        return success(data='ok')
+
     @action(
         methods=["GET"],
         detail=False,
@@ -222,7 +232,7 @@ class MeetingViewSet(GetSerializerClassMixin, viewsets.ModelViewSet):
     def listMeetingValidForUser(self, request, *args, **kwargs):
         userId = request.user.id
         meetings = Meeting.objects.filter(
-            meeting_guest__meeting_guest_id=userId, is_valid=True)
+            meeting_guest__meeting_guest_id=userId)
         meetingSerializer = MeetingSerializer(meetings, many=True)
         return success(data=meetingSerializer.data)
 
