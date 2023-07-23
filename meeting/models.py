@@ -41,7 +41,6 @@ class MeetingGuest(models.Model):
         User, on_delete=models.CASCADE, related_name='meeting_guest')
 
     created_at = models.DateTimeField(auto_now_add=True)
-    conclusion_guest = models.TextField(null=True)
 
     class Meta:
         db_table = "meeting_guest"

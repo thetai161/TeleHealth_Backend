@@ -15,8 +15,5 @@ urlpatterns = [
     })),
     path('add_meeting_conclusion', MeetingViewSet.as_view({
         'post': 'addMeetingConclusion'
-    })),
-    path('add_meeting_conclusion_by_guest', MeetingViewSet.as_view({
-        'post': 'addMeetingConclusionByGuest'
     }))
 ]

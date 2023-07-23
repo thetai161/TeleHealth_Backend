@@ -31,9 +31,9 @@ class MeetingViewSet(GetSerializerClassMixin, viewsets.ModelViewSet):
         'list': [Role3],
         "create": [Role1],
         "update": [Role1],
-        "listMeetingMissingConclusion": [Role1],
-        "listMeetingCreatorForUser": [Role1],
-        "addMeetingConclusion": [Role1],
+        "listMeetingMissingConclusion": [Role1, Role3],
+        # "listMeetingCreatorForUser": [Role1, Role3],
+        # "addMeetingConclusion": [Role1],
 
     }
 
@@ -191,15 +191,6 @@ class MeetingViewSet(GetSerializerClassMixin, viewsets.ModelViewSet):
         meeting.save()
         meetingSerializer = MeetingSerializer(instance=meeting)
         return success(data=meetingSerializer.data)
-
-    def addMeetingConclusionByGuest(self, request, *args, **kwargs):
-        meetingId = self.request.GET.get('pk')
-        guestId = request.user.id
-        meeting = MeetingGuest.objects.filter(meeting=meetingId, meeting_guest=guestId)
-        meeting.update(
-            conclusion_guest= request.data['conclusion']
-        )
-        return success(data='ok')
 
     @action(
         methods=["GET"],
