@@ -20,13 +20,6 @@ from vnpay.vnpay import vnpay
 
 
 class VnpayViewSet(GetSerializerClassMixin, viewsets.ModelViewSet):
-    def index(self, request):
-        return render(request, "index.html", {"title": "Danh sách demo"})
-
-    def hmacsha512(self, key, data):
-        byteKey = key.encode('utf-8')
-        byteData = data.encode('utf-8')
-        return hmac.new(byteKey, byteData, hashlib.sha512).hexdigest()
 
     def payment(self, request):
         if request.method == 'POST':

@@ -108,8 +108,6 @@ class PaymentAPIView(generics.GenericAPIView):
 
     def post(self, request):
         userId = request.data['userId']
-        user_id = request.session.get('user_id')
-        print("========user_id", user_id)
         try:
             user = User.objects.get(id=userId)
             data = {
@@ -121,14 +119,13 @@ class PaymentAPIView(generics.GenericAPIView):
             return error("Error", data=ex)
 
 
-class ActiveUnlimitedUsage(generics.GenericAPIView):
-    def active(self, request):
-        from vnpay.settings import VNPAY_TMN_CODE
+class SuccessPayment(generics.GenericAPIView):
+    def post(self, request):
+        userId = request.data['userId']
         try:
-            vnp_TmnCode = request.args.get('vnp_TmnCode')
-            if vnp_TmnCode == VNPAY_TMN_CODE:
-                pass
-            else:
-                pass
+            user = User.objects.get(id=userId)
+            user.unlimited_usage = True
+            user.save()
+            return success(data="ok")
         except Exception as ex:
-            return error(data=ex)
+            return error("Error", data=ex)

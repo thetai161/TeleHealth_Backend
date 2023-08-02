@@ -187,7 +187,6 @@ class MeetingViewSet(GetSerializerClassMixin, viewsets.ModelViewSet):
         meetingId = self.request.GET.get('pk')
         meeting = Meeting.objects.get(id=meetingId)
         meeting.conclusion = request.data['conclusion']
-        meeting.is_valid = False
         meeting.save()
         meetingSerializer = MeetingSerializer(instance=meeting)
         return success(data=meetingSerializer.data)
@@ -238,3 +237,15 @@ class MeetingViewSet(GetSerializerClassMixin, viewsets.ModelViewSet):
             meeting_guest__meeting_guest_id=userId)
         meetingSerializer = MeetingSerializer(meetings, many=True)
         return success(data=meetingSerializer.data)
+
+    @action(
+        methods=["GET"],
+        detail=False,
+        url_path="end_edit_conclusion"
+    )
+    def endEditConclusion(self, request, *args, **kwargs):
+        meetingId = self.request.GET.get('pk')
+        meeting = Meeting.objects.get(id=meetingId)
+        meeting.is_valid = False
+        meeting.save()
+        return success(data="ok")

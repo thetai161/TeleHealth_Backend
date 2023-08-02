@@ -44,7 +44,10 @@ class PcViewSet(GetSerializerClassMixin, viewsets.ModelViewSet):
         userId = request.data['userId']
         if request.method == "POST":
             user = User.objects.get(id=userId)
-            free_usage_count_new = user.free_usage_count + 1
+            if user.free_usage_count is None:
+                free_usage_count_new = 1
+            else:
+                free_usage_count_new = int(user.free_usage_count) + 1
             user.free_usage_count = free_usage_count_new
             user.save()
             uploaded_files = request.FILES.getlist("uploadfiles")

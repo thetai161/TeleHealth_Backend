@@ -101,7 +101,7 @@ WSGI_APPLICATION = 'telehealth-setting.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'TeleHealth',
+        'NAME': 'postgres',
         'USER': 'postgres',
         'PASSWORD': 'xxiCAJ93',
         'HOST': 'localhost',
