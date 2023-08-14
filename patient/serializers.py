@@ -26,6 +26,12 @@ class PatientDetailSerializer(serializers.ModelSerializer):
             patientEmail = user.email
             patientPhone = user.phone
             if PatientManagement.objects.filter(patient_id=instance.id):
+                doctor = PatientManagement.objects.get(patient_id=instance.id)
+                if doctor:
+                    doctorId = doctor.doctor_id
+                    if doctorId:
+                        doctorInfo = Doctor.objects.get(id=doctorId)
+                        doctorName = doctorInfo.name
                 patientManagement = True
                 patientManagements = PatientManagement.objects.filter(patient_id=instance.id)
                 patientManagementDoctorId = DoctorIdPatientManagementSerializer(instance=patientManagements, many=True).data
@@ -42,9 +48,9 @@ class PatientDetailSerializer(serializers.ModelSerializer):
         representation['email'] = patientEmail
         representation['phone'] = patientPhone
         representation['address'] = patientAddress
-        representation['patientManagement'] = patientManagement
-        representation['patientManagementDoctorId'] = patientManagementDoctorId
-
+        # representation['patientManagement'] = patientManagement
+        # representation['patientManagementDoctorId'] = patientManagementDoctorId
+        representation['doctorName'] = doctorName
         return representation
 
     class Meta:

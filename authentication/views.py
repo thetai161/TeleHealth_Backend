@@ -96,7 +96,7 @@ class DoctorRegister(generics.GenericAPIView):
                     password=doctorData['password'],
                     username=doctorData['username'],
                     phone=doctorData['phone'],
-                    role=doctorData['role'],
+                    role='role1',
                 )
                 doctorSerializer = RegisterSerializer(user)
                 return success(data=doctorSerializer.data)

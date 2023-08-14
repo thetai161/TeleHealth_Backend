@@ -33,6 +33,6 @@ class PatientViewSet(GetSerializerClassMixin, viewsets.ModelViewSet):
         url_path="detail_profile_patient"
     )
     def detailProfilePatient(self, request, *args, **kwargs):
-        patient = Patient.objects.get(user=request.user.id)
-        patientSerializer = PatientDetailSerializer(patient, many=True)
+        patient = Patient.objects.get(user_id=request.user.id)
+        patientSerializer = PatientDetailSerializer(patient)
         return Response(data=patientSerializer.data, status=status.HTTP_200_OK)
