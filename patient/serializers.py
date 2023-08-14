@@ -44,6 +44,7 @@ class PatientDetailSerializer(serializers.ModelSerializer):
             patientEmail = ''
             patientPhone = ''
             patientAddress = ''
+            doctorName = ''
 
         representation['email'] = patientEmail
         representation['phone'] = patientPhone
